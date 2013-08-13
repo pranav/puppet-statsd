@@ -16,7 +16,20 @@ inherits statsd::params {
   package { 'statsd':
     ensure   => $ensure,
     provider => $provider,
-    notify  => Service['statsd'],
+    notify   => Service['statsd'],
+  }
+
+  $node_dependencies = ['graphite', 'nodeunit', 'temp', 'underscore']
+
+  package { $node_dependencies:
+    ensure   => present,
+    provider => 'npm',
+    notify   => Service['statsd'],
+  }
+
+  exec { 'carbon-npm':
+    command  => '/usr/bin/npm install -g carbon',
+    creates  => '/usr/lib/node_modules/carbon',
   }
 
   $configfile  = '/etc/statsd/localConfig.js'

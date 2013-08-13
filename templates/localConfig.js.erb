@@ -1,6 +1,6 @@
 {
   backends: [<% backends.each do |backend| -%>
-  "<%= backend %>",
+  "./backends/<%= backend %>",
   <% end -%>]
 , graphitePort: "<%= graphiteport %>"
 , graphiteHost: "<%= graphiteserver %>"
